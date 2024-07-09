@@ -25,17 +25,17 @@ export const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 
-export const loginWithPhoneNumber = async (phoneNumber: string) => {
-  const appVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {});
-  try {
-    const confirmationResult = await signInWithPhoneNumber(
-      auth,
-      phoneNumber,
-      appVerifier
-    );
-    console.log(confirmationResult);
-  } catch (error) {
-    console.log(error);
-  }
-};
+// export const loginWithPhoneNumber = async (phoneNumber: string) => {
+//   const appVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {});
+//   try {
+//     const confirmationResult = await signInWithPhoneNumber(
+//       auth,
+//       phoneNumber,
+//       appVerifier
+//     );
+//     console.log(confirmationResult);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 // https://firebase.google.com/docs/auth/web/phone-auth?authuser=0&hl=en#web

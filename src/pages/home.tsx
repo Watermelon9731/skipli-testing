@@ -1,4 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
+import { loginWithPhoneNumber } from "../services/firebase";
 
 type Inputs = {
   phone_number: string;
@@ -10,10 +11,11 @@ export default function Home() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    await loginWithPhoneNumber(data.phone_number);
+  };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>

@@ -1,3 +1,3 @@
 export enum LOGIN_API {
-  POST_PHONE = "/users/access-code",
+  POST_PHONE = "/login/access-code",
 }

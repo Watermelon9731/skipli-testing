@@ -1,9 +1,5 @@
 import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  RecaptchaVerifier,
-  signInWithPhoneNumber,
-} from "firebase/auth";
+import { getAuth } from "firebase/auth";
 
 declare global {
   interface Window {

@@ -1,13 +1,20 @@
 import { defaultAxios } from "../configs/axios.config";
 import { GITHUB_API } from "../utils/api/github";
+import { RequestGithubUserList } from "../utils/interfaces/github";
 
-export const getGithubUserList = async (keyword: string) => {
+export const getGithubUserList = async ({
+  keyword,
+  page = 1,
+  perPage = 20,
+}: RequestGithubUserList) => {
   try {
     const result = await defaultAxios.get(GITHUB_API.GET_USER_LIST, {
-      params: { q: keyword, page: 1, per_page: 20 },
+      params: { q: keyword, page: page, per_page: perPage },
     });
     return result.data;
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // {

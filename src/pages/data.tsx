@@ -2,24 +2,16 @@ import ScreenSearchDesktopIcon from "@mui/icons-material/ScreenSearchDesktop";
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { useDebouncedCallback } from "use-debounce";
-import { getGithubUserList } from "../services/github.service";
 import { useState } from "react";
-import DataTable from "../components/dataTable";
+import DataTable from "../components/dataTable/dataTable";
 
 export default function Data() {
-  const [listUser, setListUser] = useState([]);
-  const debounce = useDebouncedCallback(async (value) => {
-    try {
-      const result = await getGithubUserList(value);
-      setListUser(result.items);
-    } catch (error) {}
-  }, 1000);
+  const [inputText, setInputText] = useState("");
 
   const handleInputSearch = (event: any) => {
     const inputText = event.target.value;
     if (!inputText || inputText === "") return;
-    debounce(inputText);
+    setInputText(inputText);
   };
 
   return (
@@ -29,7 +21,7 @@ export default function Data() {
         fontSize={30}
         textAlign={"center"}
       >
-        Github User Data List
+        Github User List
       </Typography>
       <Box width={"100%"} display={"flex"} justifyContent={"center"}>
         <Box sx={{ "& > :not(style)": { m: 1 }, margin: "auto" }}>
@@ -46,7 +38,7 @@ export default function Data() {
           </Box>
         </Box>
       </Box>
-      <DataTable data={listUser} />
+      <DataTable inputText={inputText} />
     </Box>
   );
 }

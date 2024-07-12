@@ -1,11 +1,11 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { getAccessCode, verifyAccessCode } from "../services/login.service";
-import { USER_ID } from "../utils/constansts/user";
+import { USER_FAVORITE, USER_ID } from "../utils/constansts/user";
 import { Button, Card, CardContent, Input, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import { Box } from "@mui/system";
-import { ResponseAccessCode } from "../utils/interfaces/user";
+import { ResponseAccessCode } from "../utils/interfaces/login";
 
 type Inputs = {
   phone_number: string;
@@ -42,8 +42,11 @@ export default function Home() {
         accessCode: data.access_code,
         userId: userId,
       });
-      console.log({ result });
-    } catch (error) {}
+      localStorage.setItem(USER_FAVORITE, result.favorite_id);
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

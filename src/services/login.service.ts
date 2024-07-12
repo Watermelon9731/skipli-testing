@@ -3,7 +3,7 @@ import { LOGIN_API } from "../utils/api/login";
 import {
   RequestAccessCodePayload,
   RequestVerifyAccessCodePayload,
-} from "../utils/interfaces/user";
+} from "../utils/interfaces/login";
 
 export const getAccessCode = async ({
   phoneNumber,

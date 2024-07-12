@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Logout, PersonAdd, Settings } from "@mui/icons-material";
+import { Logout } from "@mui/icons-material";
 import {
   Avatar,
   Box,

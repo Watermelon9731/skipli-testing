@@ -1,14 +1,10 @@
-export interface RequestAccessCodePayload {
-  phoneNumber: string;
+import { GithubProfile } from "./github";
+
+export interface RequestUpdateFavorite {
+  favoriteId: string;
+  profile: GithubProfile;
 }
 
-export interface RequestVerifyAccessCodePayload {
-  userId: string;
-  accessCode: string;
-  phoneNumber: string;
-}
-
-export interface ResponseAccessCode {
-  message: string;
+export interface RequestFavoriteList {
   userId: string;
 }

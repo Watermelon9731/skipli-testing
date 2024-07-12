@@ -15,13 +15,15 @@ import { AvatarImage } from "../components/dataTable/styles";
 import { useEffect, useState } from "react";
 import { getFavoriteProfileList } from "../services/user.service";
 import { USER_ID } from "../utils/constansts/user";
-import { getGithubUserProfile } from "../services/github.service";
 import InformationCard from "../components/informationCard/informationCard";
+import { useNavigate } from "react-router-dom";
 
 const titleList = ["login", "id", "avatar_url", "html_url", "followers_url"];
 
 export default function Profile() {
   const [listUser, setListUser] = useState([]);
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     const userId = localStorage.getItem(USER_ID);
@@ -39,14 +41,6 @@ export default function Profile() {
     getListData(userId);
   }, []);
 
-  const handleGetProfileInfo = async (id: number) => {
-    console.log(id);
-    try {
-      const result = await getGithubUserProfile(id);
-      console.log(result);
-    } catch (error) {}
-  };
-
   const renderTableHeader = () => {
     return titleList.map((head, idx) => (
       <TableCell key={idx}>
@@ -62,7 +56,7 @@ export default function Profile() {
           <TableCell
             key={idx}
             align={"left"}
-            onClick={() => handleGetProfileInfo(item["id"])}
+            onClick={() => navigate(`/profile/${item["id"]}`)}
             sx={{ cursor: "pointer" }}
           >
             {item[key]}

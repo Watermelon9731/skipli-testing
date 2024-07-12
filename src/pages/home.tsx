@@ -6,6 +6,7 @@ import SendIcon from "@mui/icons-material/Send";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import { Box } from "@mui/system";
 import { ResponseAccessCode } from "../utils/interfaces/login";
+import { useNavigate } from "react-router-dom";
 
 type Inputs = {
   phone_number: string;
@@ -20,6 +21,8 @@ export default function Home() {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
+
+  const navigate = useNavigate();
 
   const handlePhoneNumber = async () => {
     const phoneNumber = getValues("phone_number");
@@ -43,7 +46,7 @@ export default function Home() {
         userId: userId,
       });
       localStorage.setItem(USER_FAVORITE, result.favorite_id);
-      console.log(result);
+      navigate("/data");
     } catch (error) {
       console.log(error);
     }
@@ -78,10 +81,20 @@ export default function Home() {
               <Box textAlign={"center"}>
                 <h3>Your Phone Number</h3>
                 <Box marginBottom={3}>
-                  <Input
-                    placeholder="Input your phone number"
-                    {...register("phone_number", { required: true })}
-                  />
+                  <Box
+                    display={"flex"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    gap={1}
+                  >
+                    <Box fontSize={20}>
+                      +
+                    </Box>
+                    <Input
+                      placeholder="Input your phone number"
+                      {...register("phone_number", { required: true })}
+                    />
+                  </Box>
                 </Box>
                 <Button
                   variant="contained"

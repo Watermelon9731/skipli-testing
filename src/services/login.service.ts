@@ -1,6 +1,11 @@
 import { defaultAxios } from "../configs/axios.config";
 import { LOGIN_API } from "../utils/api/login";
 import {
+  USER_FAVORITE,
+  USER_FAVORITE_PROFILES,
+  USER_ID,
+} from "../utils/constansts/user";
+import {
   RequestAccessCodePayload,
   RequestVerifyAccessCodePayload,
 } from "../utils/interfaces/login";
@@ -33,4 +38,10 @@ export const verifyAccessCode = async ({
   } catch (error) {
     console.log(error);
   }
+};
+
+export const logout = () => {
+  localStorage.removeItem(USER_FAVORITE);
+  localStorage.removeItem(USER_ID);
+  localStorage.removeItem(USER_FAVORITE_PROFILES);
 };

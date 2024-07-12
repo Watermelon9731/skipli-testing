@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styled from "@emotion/styled";
 import { Logout } from "@mui/icons-material";
 import {
@@ -12,8 +13,11 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router";
+import { useLocation, useNavigate } from "react-router-dom";
+import { logout } from "../services/login.service";
+import { loginCheck } from "../utils/helpers/verifyLogin";
 
 const StyledWrapper = styled.div`
   font-family: "Monsterrat", sans-serif;
@@ -23,13 +27,33 @@ const StyledWrapper = styled.div`
 
 export default function Layout() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const open = Boolean(anchorEl);
+
+  useEffect(() => {
+    const isLogin = loginCheck();
+    if (isLogin) {
+      if (location.pathname === "/") return navigate("/data");
+      return;
+    }
+    navigate("/");
+  }, []);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
     <main>
       <StyledWrapper>
@@ -47,27 +71,29 @@ export default function Layout() {
               Github User List
             </Typography>
           </Link>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-              textAlign: "center",
-            }}
-          >
-            <Tooltip title="Account settings">
-              <IconButton
-                onClick={handleClick}
-                size="small"
-                sx={{ ml: 2 }}
-                aria-controls={open ? "account-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-              >
-                <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
-              </IconButton>
-            </Tooltip>
-          </Box>
+          {loginCheck() && (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+                textAlign: "center",
+              }}
+            >
+              <Tooltip title="Account settings">
+                <IconButton
+                  onClick={handleClick}
+                  size="small"
+                  sx={{ ml: 2 }}
+                  aria-controls={open ? "account-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                >
+                  <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                </IconButton>
+              </Tooltip>
+            </Box>
+          )}
           <Menu
             anchorEl={anchorEl}
             id="account-menu"
@@ -105,21 +131,18 @@ export default function Layout() {
           >
             <Link href="/profile" underline="none" color="inherit">
               <MenuItem onClick={handleClose}>
-                <Avatar /> Profile
-              </MenuItem>
-            </Link>
-            <Link href="/favorite" underline="none" color="inherit">
-              <MenuItem onClick={handleClose}>
-                <Avatar /> Favorite
+                <Avatar /> Account
               </MenuItem>
             </Link>
             <Divider />
-            <MenuItem onClick={handleClose}>
-              <ListItemIcon>
-                <Logout fontSize="small" />
-              </ListItemIcon>
-              Logout
-            </MenuItem>
+            <Box onClick={handleLogout}>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <Logout fontSize="small" />
+                </ListItemIcon>
+                Logout
+              </MenuItem>
+            </Box>
           </Menu>
         </Box>
         <Outlet />

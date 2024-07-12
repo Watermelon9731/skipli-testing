@@ -28,7 +28,7 @@ interface Props {
   inputText: string;
 }
 
-// const fakeUser = {
+// const sampleUser = {
 //   login: "aaa",
 //   id: "1704",
 //   avatar_url: "https://avatars.githubusercontent.com/u/1704?v=4",

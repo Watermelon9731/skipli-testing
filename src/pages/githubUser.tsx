@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Box,
+  Link,
   Paper,
   Table,
   TableBody,
@@ -8,44 +10,67 @@ import {
   TableHead,
   TableRow,
   Typography,
-  Link,
-  Divider,
 } from "@mui/material";
-import { AvatarImage } from "../components/dataTable/styles";
 import { useEffect, useState } from "react";
-import { getFavoriteProfileList } from "../services/user.service";
-import { USER_ID } from "../utils/constansts/user";
+import { AvatarImage } from "../components/dataTable/styles";
+import { useNavigate, useParams } from "react-router-dom";
 import { getGithubUserProfile } from "../services/github.service";
-import InformationCard from "../components/informationCard/informationCard";
 
-const titleList = ["login", "id", "avatar_url", "html_url", "followers_url"];
+const titleList = [
+  "login",
+  "id",
+  "node_id",
+  "avatar_url",
+  "gravatar_id",
+  "url",
+  "html_url",
+  "followers_url",
+  "following_url",
+  "gists_url",
+  "starred_url",
+  "subscriptions_url",
+  "organizations_url",
+  "repos_url",
+  "events_url",
+  "received_events_url",
+  "type",
+  "site_admin",
+  "name",
+  "company",
+  "blog",
+  "location",
+  "email",
+  "hireable",
+  "bio",
+  "twitter_username",
+  "public_repos",
+  "public_gists",
+  "followers",
+  "following",
+  "created_at",
+  "updated_at",
+];
 
-export default function Profile() {
-  const [listUser, setListUser] = useState([]);
+export default function GithubUser() {
+  const [listUser, setListUser] = useState([{}]);
+
+  const params = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const userId = localStorage.getItem(USER_ID);
-    if (!userId || userId === "") return;
-
-    async function getListData(id: string) {
+    if (!params.slug) return navigate(-1);
+    async function getUserInfo(id: number | string) {
       try {
-        const data = await getFavoriteProfileList(id);
-        setListUser(data.profiles);
+        const result: object = await getGithubUserProfile(Number(id));
+        setListUser([result]);
       } catch (error) {
         console.log(error);
+        navigate("/");
       }
     }
 
-    getListData(userId);
+    getUserInfo(params.slug);
   }, []);
-
-  const handleGetProfileInfo = async (id: number) => {
-    console.log(id);
-    try {
-      const result = await getGithubUserProfile(id);
-      console.log(result);
-    } catch (error) {}
-  };
 
   const renderTableHeader = () => {
     return titleList.map((head, idx) => (
@@ -57,18 +82,7 @@ export default function Profile() {
 
   const renderTableBodyContent = (item: any) => {
     return titleList.map((key, idx) => {
-      if (key === "id") {
-        return (
-          <TableCell
-            key={idx}
-            align={"left"}
-            onClick={() => handleGetProfileInfo(item["id"])}
-            sx={{ cursor: "pointer" }}
-          >
-            {item[key]}
-          </TableCell>
-        );
-      } else if (key === "avatar_url") {
+      if (key === "avatar_url") {
         return (
           <TableCell key={idx} align={"left"}>
             <Box
@@ -100,19 +114,7 @@ export default function Profile() {
   };
   return (
     <Box height={"100%"} bgcolor={"white"} padding={5}>
-      <Typography variant="h4" paddingLeft={5}>
-        User Information
-      </Typography>
-      <Box padding={5} paddingTop={2} paddingBottom={2} overflow={"hidden"}>
-        <InformationCard />
-      </Box>
-      <Box padding={5} paddingBottom={2}>
-        <Divider />
-      </Box>
-      <Typography variant="h4" paddingLeft={5}>
-        Favorite
-      </Typography>
-      <Box padding={5} paddingTop={2} overflow={"hidden"}>
+      <Box padding={5} overflow={"hidden"}>
         {listUser && listUser.length > 0 ? (
           <Paper sx={{ width: "100%", overflow: "hidden" }}>
             <TableContainer>

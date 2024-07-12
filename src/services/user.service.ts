@@ -36,3 +36,14 @@ export const getFavoriteProfileList = async (userId: string) => {
     console.log(error);
   }
 };
+
+export const getUserProfile = async (userId: string) => {
+  try {
+    const result = await defaultAxios.post(FAVORITE_PROFILE.PROFILE, {
+      userId: userId,
+    });
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

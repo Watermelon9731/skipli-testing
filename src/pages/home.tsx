@@ -1,12 +1,13 @@
-import { SubmitHandler, useForm } from "react-hook-form";
-import { getAccessCode, verifyAccessCode } from "../services/login.service";
-import { USER_FAVORITE, USER_ID } from "../utils/constansts/user";
-import { Button, Card, CardContent, Input, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
+import { Button, Card, CardContent, Input, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { ResponseAccessCode } from "../utils/interfaces/login";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { getAccessCode, verifyAccessCode } from "../services/login.service";
+import { USER_FAVORITE, USER_ID } from "../utils/constansts/user";
+import { ResponseAccessCode } from "../utils/interfaces/login";
+import { useFavoriteStore } from "../store/favoriteStore";
 
 type Inputs = {
   phone_number: string;
@@ -15,6 +16,7 @@ type Inputs = {
 };
 
 export default function Home() {
+  const { favoriteList } = useFavoriteStore();
   const {
     register,
     getValues,
@@ -87,9 +89,7 @@ export default function Home() {
                     alignItems={"center"}
                     gap={1}
                   >
-                    <Box fontSize={20}>
-                      +
-                    </Box>
+                    <Box fontSize={20}>+</Box>
                     <Input
                       placeholder="Input your phone number"
                       {...register("phone_number", { required: true })}

@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { getAccessCode, verifyAccessCode } from "../services/login.service";
 import { USER_FAVORITE, USER_ID } from "../utils/constansts/user";
 import { ResponseAccessCode } from "../utils/interfaces/login";
-import { useFavoriteStore } from "../store/favoriteStore";
 
 type Inputs = {
   phone_number: string;
@@ -16,7 +15,6 @@ type Inputs = {
 };
 
 export default function Home() {
-  const { favoriteList } = useFavoriteStore();
   const {
     register,
     getValues,

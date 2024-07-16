@@ -12,18 +12,20 @@ import {
   Divider,
 } from "@mui/material";
 import { AvatarImage } from "../components/dataTable/styles";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getFavoriteProfileList } from "../services/user.service";
 import { USER_ID } from "../utils/constansts/user";
 import InformationCard from "../components/informationCard/informationCard";
 import { useNavigate } from "react-router-dom";
+import { useFavoriteStore } from "../store/favoriteStore";
 
 const titleList = ["login", "id", "avatar_url", "html_url", "followers_url"];
 
 export default function Profile() {
-  const [listUser, setListUser] = useState([]);
+  const { favoriteList, setFavoriteList } =
+    useFavoriteStore((state) => state);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const userId = localStorage.getItem(USER_ID);
@@ -32,7 +34,7 @@ export default function Profile() {
     async function getListData(id: string) {
       try {
         const data = await getFavoriteProfileList(id);
-        setListUser(data.profiles);
+        setFavoriteList(data.profiles);
       } catch (error) {
         console.log(error);
       }
@@ -107,7 +109,7 @@ export default function Profile() {
         Favorite
       </Typography>
       <Box padding={5} paddingTop={2} overflow={"hidden"}>
-        {listUser && listUser.length > 0 ? (
+        {favoriteList && favoriteList.length > 0 ? (
           <Paper sx={{ width: "100%", overflow: "hidden" }}>
             <TableContainer>
               <Table stickyHeader aria-label="sticky table">
@@ -115,7 +117,7 @@ export default function Profile() {
                   <TableRow>{renderTableHeader()}</TableRow>
                 </TableHead>
                 <TableBody>
-                  {listUser.map((row, idx) => {
+                  {favoriteList.map((row, idx) => {
                     return (
                       <TableRow hover role="checkbox" tabIndex={-1} key={idx}>
                         {renderTableBodyContent(row)}

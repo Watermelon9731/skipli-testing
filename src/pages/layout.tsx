@@ -18,6 +18,7 @@ import { Outlet } from "react-router";
 import { useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../services/login.service";
 import { loginCheck } from "../utils/helpers/verifyLogin";
+import { useFavoriteStore } from "../store/favoriteStore";
 
 const StyledWrapper = styled.div`
   font-family: "Monsterrat", sans-serif;
@@ -27,6 +28,7 @@ const StyledWrapper = styled.div`
 
 export default function Layout() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { resetFavoriteList } = useFavoriteStore((state) => state);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -51,6 +53,7 @@ export default function Layout() {
 
   const handleLogout = () => {
     logout();
+    resetFavoriteList();
     navigate("/");
   };
 

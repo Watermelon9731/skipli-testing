@@ -4,7 +4,7 @@ import {
   USER_FAVORITE,
   USER_FAVORITE_PROFILES,
   USER_ID,
-} from "../utils/constansts/user";
+} from "../utils/constants/user";
 import {
   RequestAccessCodePayload,
   RequestVerifyAccessCodePayload,

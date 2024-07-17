@@ -5,10 +5,10 @@ export interface RequestGithubUserList {
 }
 
 export interface GithubProfile {
-  login: string;
-  id: number;
-  avatar_url: string;
   html_url: string;
   followers_url: string;
+  login: string;
+  avatar_url: string;
+  id: number;
   repos_urls: string;
 }

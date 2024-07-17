@@ -5,7 +5,7 @@ import { Box } from "@mui/system";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { getAccessCode, verifyAccessCode } from "../services/login.service";
-import { USER_FAVORITE, USER_ID } from "../utils/constansts/user";
+import { USER_FAVORITE, USER_ID } from "../utils/constants/user";
 import { ResponseAccessCode } from "../utils/interfaces/login";
 
 type Inputs = {

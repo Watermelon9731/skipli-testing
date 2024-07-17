@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { getUserProfile } from "../../services/user.service";
-import { USER_ID } from "../../utils/constansts/user";
+import { USER_ID } from "../../utils/constants/user";
 
 export default function InformationCard() {
   const [infomation, setInfomation] = useState({

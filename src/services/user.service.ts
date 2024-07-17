@@ -6,6 +6,7 @@ import { RequestUpdateFavorite } from "../utils/interfaces/user";
 export const updateFavoriteProfile = async ({
   favoriteId,
   profile,
+  type,
 }: RequestUpdateFavorite) => {
   try {
     const payload: GithubProfile = {
@@ -16,7 +17,7 @@ export const updateFavoriteProfile = async ({
       followers_url: profile.followers_url,
       repos_urls: profile.repos_urls,
     };
-    const result = await defaultAxios.post(FAVORITE_PROFILE.UPDATE, {
+    const result = await defaultAxios.post(FAVORITE_PROFILE[type], {
       favoriteId,
       payload,
     });

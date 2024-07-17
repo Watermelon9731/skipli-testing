@@ -14,16 +14,16 @@ import {
 import { AvatarImage } from "../components/dataTable/styles";
 import { useEffect } from "react";
 import { getFavoriteProfileList } from "../services/user.service";
-import { USER_ID } from "../utils/constansts/user";
+import { USER_ID } from "../utils/constants/user";
 import InformationCard from "../components/informationCard/informationCard";
 import { useNavigate } from "react-router-dom";
 import { useFavoriteStore } from "../store/favoriteStore";
+import FavoriteButton from "../components/dataTable/favoriteButton/favoriteButton";
 
 const titleList = ["login", "id", "avatar_url", "html_url", "followers_url"];
 
 export default function Profile() {
-  const { favoriteList, setFavoriteList } =
-    useFavoriteStore((state) => state);
+  const { favoriteList, setFavoriteList } = useFavoriteStore((state) => state);
 
   const navigate = useNavigate();
 
@@ -114,12 +114,21 @@ export default function Profile() {
             <TableContainer>
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
-                  <TableRow>{renderTableHeader()}</TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Typography textTransform={"uppercase"}>LIKE</Typography>
+                    </TableCell>
+                    {renderTableHeader()}
+                  </TableRow>
                 </TableHead>
                 <TableBody>
                   {favoriteList.map((row, idx) => {
+                    const isSelected = !!favoriteList.find(
+                      (item) => item.id === row.id
+                    );
                     return (
                       <TableRow hover role="checkbox" tabIndex={-1} key={idx}>
+                        <FavoriteButton selected={isSelected} data={row} />
                         {renderTableBodyContent(row)}
                       </TableRow>
                     );

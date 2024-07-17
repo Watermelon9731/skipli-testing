@@ -1,13 +1,14 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { GithubProfile } from "../utils/interfaces/github";
 
 type FavoriteState = {
-  favoriteList: any[];
+  favoriteList: GithubProfile[];
 };
 
 type FavoriteAction = {
   setFavoriteList: (list: FavoriteState["favoriteList"]) => void;
-  updateFavoriteList: (id: number) => void;
+  updateFavoriteList: (favoriteItem: GithubProfile) => void;
   resetFavoriteList: () => void;
 };
 
@@ -19,24 +20,23 @@ export const useFavoriteStore = create<FavoriteState & FavoriteAction>()(
   persist(
     (set) => ({
       ...initialState,
-      setFavoriteList: (list) =>
-        set((state) => ({ favoriteList: [...state.favoriteList, list] })),
-      updateFavoriteList: (id) =>
+      setFavoriteList: (list: FavoriteState["favoriteList"]) =>
+        set({ favoriteList: [...list] }),
+      updateFavoriteList: (favoriteItem) =>
         set((state) => {
           if (!state.favoriteList || state.favoriteList.length <= 0) {
-            return { favoriteList: [...state.favoriteList, id] };
+            return { favoriteList: [...state.favoriteList, favoriteItem] };
           } else {
             const isExist = state.favoriteList.find(
-              (item: number) => item === id
+              (item: GithubProfile) => item.id === favoriteItem.id
             );
-
             if (isExist) {
               const newList = state.favoriteList.filter(
-                (item: number) => item !== id
+                (item) => item.id !== favoriteItem.id
               );
-              return { favoriteList: [...state.favoriteList, newList] };
+              return { favoriteList: [...newList] };
             } else {
-              return { favoriteList: [...state.favoriteList, id] };
+              return { favoriteList: [...state.favoriteList, favoriteItem] };
             }
           }
         }),

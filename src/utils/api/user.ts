@@ -1,5 +1,6 @@
 export enum FAVORITE_PROFILE {
-  UPDATE = "/user/liked",
+  ADD = "/user/liked",
+  REMOVE = "/user/liked-remove",
   LIST_DATA = "/user/favorite",
   PROFILE = "/user/profile",
 }

@@ -14,6 +14,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { getGithubUserList } from "../../services/github.service";
 import { AvatarImage, PageInput } from "./styles";
 import FavoriteButton from "./favoriteButton/favoriteButton";
+import { useFavoriteStore } from "../../store/favoriteStore";
 
 const titleList = [
   "login",
@@ -42,7 +43,8 @@ export default function DataTable({ inputText }: Props) {
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(20);
   const [rowPerPage, setRowPerPage] = useState(20);
-  const [selected, setSelected] = useState<number[]>([]);
+
+  const { favoriteList } = useFavoriteStore((state) => state);
 
   const textDebounce = useDebouncedCallback((value) => {
     if (value === rowPerPage) return;
@@ -128,12 +130,14 @@ export default function DataTable({ inputText }: Props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {listUser.map((row, idx) => {
+                {listUser.map((row: any, idx) => {
+                  const isSelected = !!favoriteList.find(
+                    (item) => item.id === row.id
+                  );
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={idx}>
                       <FavoriteButton
-                        selected={selected}
-                        setSelected={setSelected}
+                        selected={isSelected}
                         data={row}
                       />
                       {renderTableBodyContent(row)}
